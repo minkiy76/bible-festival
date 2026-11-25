@@ -27,15 +27,15 @@ const SITE = {
    name: 코너 이름, tile: 홈 화면 타일 이미지, banner: 코너 페이지 배너 사진,
    light: true 이면 배너 위에 밝은 막을 씌워 글씨를 검게 보여준다. 메뉴는 이 순서로 나온다. */
 const CORNERS = [
+  {"name": "인형", "tile": "tile2", "banner": "banner_doll", "light": false},
   {"name": "장난감", "tile": "tile0", "banner": "banner_toy", "light": false},
   {"name": "문구랑 슈퍼랑", "tile": "tile1", "banner": "banner_stat", "light": false},
-  {"name": "인형", "tile": "tile2", "banner": "banner_doll", "light": false},
   {"name": "패션", "tile": "tile3", "banner": "banner_fash", "light": false},
   {"name": "효도", "tile": "tile4", "banner": "banner_hyo", "light": false}
 ];
 
 /* 홈 화면 타일 순서 */
-const TILE_ORDER = ["장난감", "문구랑 슈퍼랑", "인형", "패션", "효도"];
+const TILE_ORDER = ["인형", "장난감", "문구랑 슈퍼랑", "패션", "효도"];
 
 /* ---------- 3. 상품 ----------
    cat: 코너, name: 상품명(줄바꿈은 \n), points: 포인트, img: 사진 파일(images/products 폴더),
