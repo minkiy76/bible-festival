@@ -4,7 +4,7 @@
    ============================================================ */
 
 /* 파일을 새로 올릴 때마다 바뀌는 값. css/js/사진 주소 뒤에 붙여서 브라우저가 예전 파일을 쓰지 않게 한다. */
-const VERSION = "20261125022637";
+const VERSION = "20261125030644";
 
 /* ---------- 1. 사이트 기본 정보 ----------
    logo, banner, gallery, info.photo, footerLogo 는 아래 IMG 에 있는 이름이다. */
@@ -44,7 +44,7 @@ const TILE_ORDER = ["인형", "장난감", "문구랑 슈퍼랑", "패션", "효
    cat: 코너, name: 상품명(줄바꿈은 \n), points: 포인트, img: 사진 파일(images/products 폴더),
    group: 소분류(문구랑 슈퍼랑 코너만 사용).
    사진을 바꾸려면 같은 이름으로 덮어쓰거나 img 경로를 고치면 된다.
-   화면에서는 코너별로 소분류(GROUP_ORDER 순서) → 포인트 높은순 → 이름 가나다순으로 자동 정렬된다. */
+   화면에서는 코너별로 소분류(GROUP_ORDER 순서), 포인트 높은순, 이름 가나다순으로 자동 정렬된다. */
 const GROUP_ORDER = ["문구", "슈퍼"];   // 문구랑 슈퍼랑 코너: 문구를 먼저, 먹고 마시는 슈퍼 상품을 뒤에 보여준다.
 
 const PRODUCTS = [
@@ -117,7 +117,7 @@ const PRODUCTS = [
   {"cat": "효도", "name": "베베숲 오리진 유아물티슈 캡형", "points": 15, "img": "images/products/hyodo-06.jpg"}
 ];
 
-/* ---------- 4. 화면용 이미지 이름 → 파일 경로 ---------- */
+/* ---------- 4. 화면용 이미지 이름과 파일 경로 ---------- */
 const IMG = {
   "logo": "images/logo.jpg",
   "banner_home": "images/banner_home.jpg",

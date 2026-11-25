@@ -179,7 +179,7 @@ function renderHome() {
 
 /* ---------- 코너(상품 목록) 화면 ---------- */
 
-// 소분류(GROUP_ORDER 순서) → 포인트 높은순 → 이름 가나다순
+// 소분류(GROUP_ORDER 순서), 포인트 높은순, 이름 가나다순
 function groupRank(product) {
   const rank = GROUP_ORDER.indexOf(product.group);
   return rank === -1 ? 0 : rank;       // group 이 없는 상품은 맨 앞 그룹으로 취급
