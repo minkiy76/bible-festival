@@ -4,7 +4,7 @@
    ============================================================ */
 
 /* 파일을 새로 올릴 때마다 바뀌는 값. css/js/사진 주소 뒤에 붙여서 브라우저가 예전 파일을 쓰지 않게 한다. */
-const VERSION = "20261125030644";
+const VERSION = "20261125103135";
 
 /* ---------- 1. 사이트 기본 정보 ----------
    logo, banner, gallery, info.photo, footerLogo 는 아래 IMG 에 있는 이름이다. */
@@ -56,7 +56,7 @@ const PRODUCTS = [
   {"cat": "인형", "name": "다다랜드 애착 바디필로우\n거위 인형", "points": 200, "img": "images/products/doll-06.jpg"},
   {"cat": "인형", "name": "오후꽃 산리오 인형키링\n포근한 감성(포차코)", "points": 165, "img": "images/products/doll-07.jpg"},
   {"cat": "인형", "name": "모찌 깜냥 고양이 인형", "points": 110, "img": "images/products/doll-08.jpg"},
-  {"cat": "인형", "name": "곰인형 키링(랜덤)", "points": 20, "img": "images/products/doll-09.jpg"},
+  {"cat": "인형", "name": "곰인형 키링(랜덤 1개)", "points": 20, "img": "images/products/doll-09.jpg"},
   {"cat": "장난감", "name": "산리오 웹툰그리기세트", "points": 600, "img": "images/products/toy-01.jpg"},
   {"cat": "장난감", "name": "공룡 6 in 1 자동차 운반차\n장난감 미니카 세트", "points": 460, "img": "images/products/toy-02.jpg"},
   {"cat": "장난감", "name": "베이블레이드X BX-23 스타터\n피닉스소어 9-60GF", "points": 460, "img": "images/products/toy-03.jpg"},
@@ -96,9 +96,9 @@ const PRODUCTS = [
   {"cat": "문구랑 슈퍼랑", "name": "쓸수록 귀여운동물이 되는 지우개", "points": 5, "img": "images/products/stationery-12.jpg", "group": "문구"},
   {"cat": "문구랑 슈퍼랑", "name": "곽과자 12종 세트", "points": 350, "img": "images/products/stationery-13.jpg", "group": "슈퍼"},
   {"cat": "문구랑 슈퍼랑", "name": "멘토스 미니 레인보우 캔디", "points": 170, "img": "images/products/stationery-14.jpg", "group": "슈퍼"},
-  {"cat": "문구랑 슈퍼랑", "name": "얼려먹는초코만들기(랜덤)", "points": 20, "img": "images/products/stationery-15.jpg", "group": "슈퍼"},
-  {"cat": "문구랑 슈퍼랑", "name": "초코픽(1개)", "points": 20, "img": "images/products/stationery-16.jpg", "group": "슈퍼"},
-  {"cat": "문구랑 슈퍼랑", "name": "킨더 조이 초콜릿 핑크(1개)", "points": 20, "img": "images/products/stationery-17.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "킨더 조이 초콜릿 핑크(2개)", "points": 40, "img": "images/products/stationery-15.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "얼려먹는초코만들기(랜덤)", "points": 20, "img": "images/products/stationery-16.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "초코픽(1개)", "points": 20, "img": "images/products/stationery-17.jpg", "group": "슈퍼"},
   {"cat": "문구랑 슈퍼랑", "name": "모구모구 과채음료 리치맛", "points": 15, "img": "images/products/stationery-18.jpg", "group": "슈퍼"},
   {"cat": "문구랑 슈퍼랑", "name": "호음호음 꼬마솜사탕(1개)", "points": 5, "img": "images/products/stationery-19.jpg", "group": "슈퍼"},
   {"cat": "패션", "name": "어린이 가을 잠옷세트\n치이카와 긴팔 긴바지 파자마\n사이즈 14/16", "points": 310, "img": "images/products/fashion-01.jpg"},
