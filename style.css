@@ -76,12 +76,14 @@
   .lb { display: block; margin-top: 8px; padding: 9px 0; font-size: 19px; text-align: center; color: #fff; background: var(--brown); }
 
   /* ---------- 홈: 행사 사진 슬라이드 ---------- */
-  .gal { position: relative; aspect-ratio: 7 / 5; overflow: hidden; background: #eee; }
-  .gal img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .5s; }
-  .gal img.on { opacity: 1; }
-  .dots { margin-top: 10px; text-align: center; }
-  .dots i { display: inline-block; width: 6px; height: 6px; margin: 0 3px; border-radius: 50%; background: #ccc; }
-  .dots i.on { background: #555; }
+  /* 사진 줄(track)을 옆으로 밀어서 보여준다. 세로 스크롤은 브라우저가, 가로로 미는 동작은 우리 코드가 처리(touch-action) */
+  .gal { position: relative; aspect-ratio: 7 / 5; overflow: hidden; background: #eee; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab; }
+  .gal-track { display: flex; width: 100%; height: 100%; transition: transform .35s ease; will-change: transform; }
+  .gal-track img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+  .dots { display: flex; justify-content: center; margin-top: 10px; }
+  .dots button { flex: 0 1 20px; min-width: 12px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
+  .dots button::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #ccc; }
+  .dots button.on::before { background: #555; }
 
   /* ---------- 홈: 예배 안내 ---------- */
   .info { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 3vw, 28px); padding: 6px 0; }   /* 사진+글을 가운데로 모음 */
@@ -114,6 +116,7 @@
   @supports not (aspect-ratio: 1 / 1) {
     .p .im { height: 0; padding-top: 100%; }
     .gal { height: 0; padding-top: 71.4%; }
+    .gal-track { position: absolute; top: 0; left: 0; }
   }
 
   /* 이미지 파일이 없을 때 보이는 자리 표시 */
