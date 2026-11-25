@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#e8472b">
+<title>지혜마을 바이블 페스티벌</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 상단: 배너 + 로고 + 메뉴 + 페이지 제목 -->
+<div class="hero" id="hero">
+  <div class="bar">
+    <a class="brand" href="#"><img id="logo" alt=""><span id="churchName"></span></a>
+    <button class="burger" id="burger" aria-label="메뉴"><i></i><i></i><i></i></button>
+    <div class="menu" id="menu"></div>
+  </div>
+  <div class="ttl" id="title"></div>
+</div>
+
+<!-- 본문: 주소(#해시)에 따라 홈 / 코너 화면이 들어옴 -->
+<div class="wrap" id="page"></div>
+
+<!-- 하단 -->
+<footer>
+  <div class="fin">
+    <img id="footerLogo" alt="">
+    <div><b id="footerName"></b><small id="footerAddress"></small></div>
+  </div>
+</footer>
+
+<!-- 맨 위로 가기 버튼 (스크롤을 내리면 나타남) -->
+<button class="to-top" id="toTop" type="button" aria-label="맨 위로"></button>
+
+<!-- 1) 사이트 설정과 상품 데이터 (수정은 data.js 에서) -->
+<script src="data.js"></script>
+
+<!-- 2) 화면 동작 -->
+<script src="app.js"></script>
+</body>
+</html>
