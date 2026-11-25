@@ -11,7 +11,7 @@ const SITE = {
   subtitle: "",                              // 제목 아래 작은 글씨 (비우면 숨김)
   logo: "logo",
   banner: "banner_home",
-  gallery: ["g0", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "g11", "g12", "g13", "g14"],                      // 홈 화면 행사 사진 슬라이드
+  gallery: ["g0", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "g11", "g12", "g13", "g14", "g15", "g16"],                      // 홈 화면 행사 사진 슬라이드
   info: {                                    // 홈 화면 예배 안내
     photo: "info_photo",
     title: "유년부 지혜마을",
@@ -30,7 +30,7 @@ const CORNERS = [
   {"name": "인형", "tile": "tile2", "banner": "banner_doll", "light": false},
   {"name": "장난감", "tile": "tile0", "banner": "banner_toy", "light": false},
   {"name": "문구랑 슈퍼랑", "tile": "tile1", "banner": "banner_stat", "light": false},
-  {"name": "패션", "tile": "tile3", "banner": "banner_fash", "light": true},
+  {"name": "패션", "tile": "tile3", "banner": "banner_fash", "light": false},
   {"name": "효도", "tile": "tile4", "banner": "banner_hyo", "light": false}
 ];
 
@@ -38,9 +38,12 @@ const CORNERS = [
 const TILE_ORDER = ["장난감", "문구랑 슈퍼랑", "인형", "패션", "효도"];
 
 /* ---------- 3. 상품 ----------
-   cat: 코너, name: 상품명(줄바꿈은 \n), points: 포인트, img: 사진 파일(images/products 폴더).
+   cat: 코너, name: 상품명(줄바꿈은 \n), points: 포인트, img: 사진 파일(images/products 폴더),
+   group: 소분류(문구랑 슈퍼랑 코너만 사용).
    사진을 바꾸려면 같은 이름으로 덮어쓰거나 img 경로를 고치면 된다.
-   화면에서는 코너별로 포인트 높은순, 같은 포인트면 이름 가나다순으로 자동 정렬된다. */
+   화면에서는 코너별로 소분류(GROUP_ORDER 순서) → 포인트 높은순 → 이름 가나다순으로 자동 정렬된다. */
+const GROUP_ORDER = ["문구", "슈퍼"];   // 문구랑 슈퍼랑 코너: 문구를 먼저, 먹고 마시는 슈퍼 상품을 뒤에 보여준다.
+
 const PRODUCTS = [
   {"cat": "인형", "name": "헬로키티 입체 바디필로우", "points": 450, "img": "images/products/doll-01.jpg"},
   {"cat": "인형", "name": "코끼리 인형 550mm", "points": 380, "img": "images/products/doll-02.jpg"},
@@ -76,25 +79,25 @@ const PRODUCTS = [
   {"cat": "장난감", "name": "말랑 모찌 랜덤박스 스퀴시 뽑기", "points": 20, "img": "images/products/toy-23.jpg"},
   {"cat": "장난감", "name": "몬스터 랜덤 키링", "points": 20, "img": "images/products/toy-24.jpg"},
   {"cat": "장난감", "name": "애니멀 말랑 모찌", "points": 15, "img": "images/products/toy-25.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "곽과자 12종 세트", "points": 350, "img": "images/products/stationery-01.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "산리오 다이어리 꾸미기\n문구세트", "points": 290, "img": "images/products/stationery-02.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "산리오 큐트 내꾸야 다꾸BAG\n시나모롤", "points": 290, "img": "images/products/stationery-03.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "타이거 미니 아티스트박스\n문구세트", "points": 290, "img": "images/products/stationery-04.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "카카오프렌즈\n춘식이 알찬구성 실속문구세트", "points": 180, "img": "images/products/stationery-05.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "멘토스 미니 레인보우 캔디", "points": 170, "img": "images/products/stationery-06.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "초등 필통, 아보카도 그린", "points": 160, "img": "images/products/stationery-07.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "치이카와 스티커(방수)", "points": 150, "img": "images/products/stationery-08.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "산리오캐릭터즈 포켓지갑", "points": 115, "img": "images/products/stationery-09.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "헬로키티 입체 스티커", "points": 100, "img": "images/products/stationery-10.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "레인보우 스크래치노트 SP+\n전용나무펜", "points": 90, "img": "images/products/stationery-11.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "얼려먹는초코만들기(랜덤)", "points": 20, "img": "images/products/stationery-12.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "초코픽(1개)", "points": 20, "img": "images/products/stationery-13.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "킨더 조이 초콜릿 핑크(1개)", "points": 20, "img": "images/products/stationery-14.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "도라에몽 연필 세트", "points": 15, "img": "images/products/stationery-15.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "모구모구 과채음료 리치맛", "points": 15, "img": "images/products/stationery-16.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "입체 동물 스티커", "points": 15, "img": "images/products/stationery-17.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "쓸수록 귀여운동물이 되는 지우개", "points": 5, "img": "images/products/stationery-18.jpg"},
-  {"cat": "문구랑 슈퍼랑", "name": "호음호음 꼬마솜사탕(1개)", "points": 5, "img": "images/products/stationery-19.jpg"},
+  {"cat": "문구랑 슈퍼랑", "name": "산리오 다이어리 꾸미기\n문구세트", "points": 290, "img": "images/products/stationery-01.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "산리오 큐트 내꾸야 다꾸BAG\n시나모롤", "points": 290, "img": "images/products/stationery-02.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "타이거 미니 아티스트박스\n문구세트", "points": 290, "img": "images/products/stationery-03.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "카카오프렌즈\n춘식이 알찬구성 실속문구세트", "points": 180, "img": "images/products/stationery-04.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "초등 필통, 아보카도 그린", "points": 160, "img": "images/products/stationery-05.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "치이카와 스티커(방수)", "points": 150, "img": "images/products/stationery-06.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "산리오캐릭터즈 포켓지갑", "points": 115, "img": "images/products/stationery-07.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "헬로키티 입체 스티커", "points": 100, "img": "images/products/stationery-08.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "레인보우 스크래치노트 SP+\n전용나무펜", "points": 90, "img": "images/products/stationery-09.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "도라에몽 연필 세트", "points": 15, "img": "images/products/stationery-10.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "입체 동물 스티커", "points": 15, "img": "images/products/stationery-11.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "쓸수록 귀여운동물이 되는 지우개", "points": 5, "img": "images/products/stationery-12.jpg", "group": "문구"},
+  {"cat": "문구랑 슈퍼랑", "name": "곽과자 12종 세트", "points": 350, "img": "images/products/stationery-13.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "멘토스 미니 레인보우 캔디", "points": 170, "img": "images/products/stationery-14.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "얼려먹는초코만들기(랜덤)", "points": 20, "img": "images/products/stationery-15.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "초코픽(1개)", "points": 20, "img": "images/products/stationery-16.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "킨더 조이 초콜릿 핑크(1개)", "points": 20, "img": "images/products/stationery-17.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "모구모구 과채음료 리치맛", "points": 15, "img": "images/products/stationery-18.jpg", "group": "슈퍼"},
+  {"cat": "문구랑 슈퍼랑", "name": "호음호음 꼬마솜사탕(1개)", "points": 5, "img": "images/products/stationery-19.jpg", "group": "슈퍼"},
   {"cat": "패션", "name": "어린이 가을 잠옷세트\n치이카와 긴팔 긴바지 파자마\n사이즈 14/16", "points": 310, "img": "images/products/fashion-01.jpg"},
   {"cat": "패션", "name": "강아지 프린팅 백팩\n신학기 책가방 인형세트", "points": 300, "img": "images/products/fashion-02.jpg"},
   {"cat": "패션", "name": "짱구와 친구들 수면안대\n(흰둥이)", "points": 180, "img": "images/products/fashion-03.jpg"},
@@ -120,6 +123,13 @@ const IMG = {
   "tile2": "images/tile2.jpg",
   "tile3": "images/tile3.jpg",
   "tile4": "images/tile4.jpg",
+  "footer_logo": "images/footer_logo.jpg",
+  "banner_doll": "images/banner_doll.jpg",
+  "banner_toy": "images/banner_toy.jpg",
+  "banner_stat": "images/banner_stat.jpg",
+  "banner_fash": "images/banner_fash.jpg",
+  "banner_hyo": "images/banner_hyo.jpg",
+  "info_photo": "images/info_photo.jpg",
   "g0": "images/g0.jpg",
   "g1": "images/g1.jpg",
   "g2": "images/g2.jpg",
@@ -135,11 +145,6 @@ const IMG = {
   "g12": "images/g12.jpg",
   "g13": "images/g13.jpg",
   "g14": "images/g14.jpg",
-  "footer_logo": "images/footer_logo.jpg",
-  "banner_doll": "images/banner_doll.jpg",
-  "banner_toy": "images/banner_toy.jpg",
-  "banner_stat": "images/banner_stat.jpg",
-  "banner_fash": "images/banner_fash.jpg",
-  "banner_hyo": "images/banner_hyo.jpg",
-  "info_photo": "images/info_photo.jpg"
+  "g15": "images/g15.jpg",
+  "g16": "images/g16.jpg"
 };
