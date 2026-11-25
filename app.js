@@ -246,7 +246,7 @@ function route() {
   playEnterAnimation();
 }
 
-/* ---------- 상단 배너를 좌우로 밀어 다음/이전 코너로 이동 ---------- */
+/* ---------- 상단 배너를 좌우로 밀거나 방향 버튼을 눌러 다음/이전 코너로 이동 ---------- */
 
 // 메뉴 순서(홈, 그다음 코너들)와 같은 순서로 화면을 넘긴다.
 function pageKeys() {
@@ -268,6 +268,29 @@ function playEnterAnimation() {
     el.classList.add(className);
     el.addEventListener("animationend", () => el.classList.remove(className), { once: true });
   });
+}
+
+// 현재 화면에서 step(+1 다음, -1 이전)만큼 이동한다. 마지막에서 다음으로 가면 처음으로, 처음에서 이전으로 가면 마지막으로 돌아간다.
+// 밀기와 방향 버튼이 함께 쓴다. 이동했으면 true.
+function goToSibling(step) {
+  const keys = pageKeys();
+  const current = decodeURIComponent(location.hash.slice(1));
+
+  if (keys.length > 1) {
+    const index = Math.max(0, keys.indexOf(current));
+    const target = (index + step + keys.length) % keys.length;
+    swipeDirection = step > 0 ? "next" : "prev";
+    $("#menu").classList.remove("open");
+    location.hash = target === 0 ? "" : encodeURIComponent(keys[target]);
+    return true;
+  }
+  return false;
+}
+
+// 배너 양쪽의 방향 버튼
+function setupHeroButtons() {
+  $("#heroPrev").addEventListener("click", () => goToSibling(-1));
+  $("#heroNext").addEventListener("click", () => goToSibling(1));
 }
 
 function setupHeroSwipe() {
@@ -313,19 +336,11 @@ function setupHeroSwipe() {
 
     // 이 정도 이상 밀면 이동하고, 조금만 밀었으면 제자리로 돌아간다.
     const threshold = Math.max(60, hero.clientWidth * 0.2);
-    const keys = pageKeys();
-    const current = decodeURIComponent(location.hash.slice(1));
-    const index = Math.max(0, keys.indexOf(current));
-    // 마지막 화면에서 다음으로 밀면 처음으로, 처음 화면에서 이전으로 밀면 마지막으로 돌아간다(한 바퀴 순환).
-    const target = (index + (deltaX < 0 ? 1 : -1) + keys.length) % keys.length;
 
-    if (Math.abs(deltaX) >= threshold) {
-      swipeDirection = deltaX < 0 ? "next" : "prev";
-      $("#menu").classList.remove("open");
+    if (Math.abs(deltaX) >= threshold && goToSibling(deltaX < 0 ? 1 : -1)) {
       title.style.transition = "";
       title.style.transform = "";
       title.style.opacity = "";
-      location.hash = target === 0 ? "" : encodeURIComponent(keys[target]);
       return;
     }
 
@@ -355,5 +370,6 @@ renderCommon();
 renderMenu();
 setupScrollTop();
 setupHeroSwipe();
+setupHeroButtons();
 addEventListener("hashchange", route);
 route();

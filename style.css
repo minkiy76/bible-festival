@@ -60,7 +60,7 @@
     padding: 18px 16px 34px;
     text-align: center;
   }
-  .ttl h1 { margin: 0; font-size: 44px; font-weight: 700; letter-spacing: -.5px; }
+  .ttl h1 { margin: 0; font-size: 44px; font-weight: 700; letter-spacing: -.5px; word-break: keep-all; }   /* 줄이 나뉠 때는 단어 단위로 */
   .ttl .u { width: 48px; height: 3px; margin-top: 12px; background: var(--gold); }
   .ttl p { margin: 10px 0 0; font-size: 13px; }
 
@@ -143,6 +143,30 @@
   .enter-prev { animation: enter-prev .3s ease; }
   @media (prefers-reduced-motion: reduce) { .enter-next, .enter-prev { animation: none; } }
 
+  /* 배너 양쪽 방향 버튼: 누르면 밀었을 때처럼 이전/다음 코너로 이동 (끝에서는 반대쪽 끝으로 한 바퀴 순환) */
+  .hero-nav {
+    position: absolute; top: calc(54px + (100% - 54px) / 2); z-index: 3;
+    width: 44px; height: 44px; padding: 0;
+    border: 0; border-radius: 50%;
+    background: rgba(0, 0, 0, .35);
+    transform: translateY(-50%);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hero-nav.prev { left: 16px; }
+  .hero-nav.next { right: 16px; }
+  .hero-nav::before {                                /* 꺾쇠 모양 화살표 */
+    content: ""; position: absolute; top: 50%; left: 50%;
+    width: 11px; height: 11px;
+    border-top: 3px solid #fff; border-left: 3px solid #fff;
+  }
+  .hero-nav.prev::before { transform: translate(-30%, -50%) rotate(-45deg); }
+  .hero-nav.next::before { transform: translate(-70%, -50%) rotate(135deg); }
+  .hero-nav:active { background: rgba(0, 0, 0, .6); }
+  @media (hover: hover) { .hero-nav:hover { background: rgba(0, 0, 0, .55); } }
+  .hero.light .hero-nav { background: rgba(255, 255, 255, .55); }
+  .hero.light .hero-nav::before { border-color: #222; }
+
   /* ---------- 맨 위로 가기 버튼 ---------- */
   .to-top {
     position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom));
@@ -177,7 +201,11 @@
     .menu a { padding: 12px 18px; border-bottom: 1px solid #eee; font-size: 14px; }
     .menu span { display: none; }
 
-    .ttl h1 { font-size: 32px; }
+    .ttl { padding: 18px 44px 34px; }                    /* 양쪽 방향 버튼과 겹치지 않게 여백 */
+    .ttl h1 { font-size: clamp(20px, 6.2vw, 32px); }       /* 홈의 긴 제목이 한 줄에 들어오도록 화면 폭에 맞춤 */
+    .hero-nav { width: 36px; height: 36px; }
+    .hero-nav.prev { left: 8px; }
+    .hero-nav.next { right: 8px; }
     .wrap { padding: 0 14px; }
     .tiles { gap: 12px 8px; }
     .tile { width: calc((100% - 16px) / 3); }
