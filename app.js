@@ -242,6 +242,100 @@ function route() {
 
   if (isHome) renderHome();
   else renderCorner(corner);
+
+  playEnterAnimation();
+}
+
+/* ---------- 상단 배너를 좌우로 밀어 다음/이전 코너로 이동 ---------- */
+
+// 메뉴 순서(홈, 그다음 코너들)와 같은 순서로 화면을 넘긴다.
+function pageKeys() {
+  return ["", ...CORNERS.map((c) => c.name)];
+}
+
+// 밀어서 이동했을 때만 "next"(다음) 또는 "prev"(이전)가 들어 있다.
+let swipeDirection = null;
+
+// 밀어서 이동한 경우, 새 화면이 미는 방향에서 들어오는 효과를 보여준다.
+function playEnterAnimation() {
+  if (!swipeDirection) return;
+  const className = swipeDirection === "next" ? "enter-next" : "enter-prev";
+  swipeDirection = null;
+
+  [$("#title"), $("#page")].forEach((el) => {
+    el.classList.remove("enter-next", "enter-prev");
+    void el.offsetWidth;                       // 같은 효과를 연속으로 줄 때 다시 시작되게 함
+    el.classList.add(className);
+    el.addEventListener("animationend", () => el.classList.remove(className), { once: true });
+  });
+}
+
+function setupHeroSwipe() {
+  const hero = $("#hero");
+  const title = $("#title");
+  let startX = null;
+  let startY = 0;
+  let deltaX = 0;
+  let dragging = false;
+
+  hero.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    if (e.target.closest("a, button, .menu")) return;       // 로고, 메뉴 버튼을 누르는 동작과 겹치지 않게
+    startX = e.clientX;
+    startY = e.clientY;
+    deltaX = 0;
+    dragging = false;
+  });
+
+  hero.addEventListener("pointermove", (e) => {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    if (!dragging) {
+      // 세로로 움직이면(스크롤) 끼어들지 않고, 가로로 10px 이상 확실히 움직일 때부터 제목이 손가락을 따라 움직인다.
+      if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      dragging = true;
+      hero.setPointerCapture(e.pointerId);
+      title.style.transition = "none";
+    }
+    deltaX = dx;
+    title.style.transform = `translateX(${dx * 0.4}px)`;
+    title.style.opacity = String(1 - Math.min(Math.abs(dx) / hero.clientWidth, 0.6));
+  });
+
+  function finish() {
+    if (startX === null) return;
+    const wasDragging = dragging;
+    startX = null;
+    dragging = false;
+    if (!wasDragging) return;
+
+    // 이 정도 이상 밀면 이동하고, 조금만 밀었거나 처음/마지막 화면이면 제자리로 돌아간다.
+    const threshold = Math.max(60, hero.clientWidth * 0.2);
+    const keys = pageKeys();
+    const current = decodeURIComponent(location.hash.slice(1));
+    const index = Math.max(0, keys.indexOf(current));
+    const target = index + (deltaX < 0 ? 1 : -1);
+
+    if (Math.abs(deltaX) >= threshold && target >= 0 && target < keys.length) {
+      swipeDirection = deltaX < 0 ? "next" : "prev";
+      $("#menu").classList.remove("open");
+      title.style.transition = "";
+      title.style.transform = "";
+      title.style.opacity = "";
+      location.hash = target === 0 ? "" : encodeURIComponent(keys[target]);
+      return;
+    }
+
+    // 제자리로 부드럽게 되돌리기
+    title.style.transition = "transform .2s, opacity .2s";
+    title.style.transform = "";
+    title.style.opacity = "";
+    setTimeout(() => { title.style.transition = ""; }, 220);
+  }
+  hero.addEventListener("pointerup", finish);
+  hero.addEventListener("pointercancel", finish);
 }
 
 /* ---------- 맨 위로 가기 버튼 ---------- */
@@ -259,5 +353,6 @@ function setupScrollTop() {
 renderCommon();
 renderMenu();
 setupScrollTop();
+setupHeroSwipe();
 addEventListener("hashchange", route);
 route();
