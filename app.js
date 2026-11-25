@@ -8,7 +8,10 @@ function escapeHtml(text) {
 
 // IMG에 있는 이름이면 그 파일 경로를, 아니면 그대로(주소) 사용
 function imageUrl(key) {
-  return IMG[key] || key;
+  const url = IMG[key] || key;
+  // 파일 경로(images/...)에는 VERSION 을 붙여서, 사진을 바꿔 올렸을 때 브라우저가 예전 사진을 계속 쓰지 않게 한다.
+  const isFile = !/^(https?:|data:)/.test(url);
+  return isFile && typeof VERSION !== "undefined" ? url + "?v=" + VERSION : url;
 }
 
 /* ---------- 상품 이미지 ---------- */
