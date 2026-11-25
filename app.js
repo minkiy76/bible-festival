@@ -311,14 +311,15 @@ function setupHeroSwipe() {
     dragging = false;
     if (!wasDragging) return;
 
-    // 이 정도 이상 밀면 이동하고, 조금만 밀었거나 처음/마지막 화면이면 제자리로 돌아간다.
+    // 이 정도 이상 밀면 이동하고, 조금만 밀었으면 제자리로 돌아간다.
     const threshold = Math.max(60, hero.clientWidth * 0.2);
     const keys = pageKeys();
     const current = decodeURIComponent(location.hash.slice(1));
     const index = Math.max(0, keys.indexOf(current));
-    const target = index + (deltaX < 0 ? 1 : -1);
+    // 마지막 화면에서 다음으로 밀면 처음으로, 처음 화면에서 이전으로 밀면 마지막으로 돌아간다(한 바퀴 순환).
+    const target = (index + (deltaX < 0 ? 1 : -1) + keys.length) % keys.length;
 
-    if (Math.abs(deltaX) >= threshold && target >= 0 && target < keys.length) {
+    if (Math.abs(deltaX) >= threshold) {
       swipeDirection = deltaX < 0 ? "next" : "prev";
       $("#menu").classList.remove("open");
       title.style.transition = "";
